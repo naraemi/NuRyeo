@@ -1,0 +1,22 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LinearLayout2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="${packageName}.${activityClass}" >
+
+    <com.example.snfu.HorizontialListView
+        android:id="@+id/listview"
+        android:layout_width="fill_parent"
+        android:layout_height="80px"
+        android:background="#1bba9e" />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="넘어가기"
+        android:onClick="onClick" />
+
+</LinearLayout>

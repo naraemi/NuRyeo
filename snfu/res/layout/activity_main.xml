@@ -1,0 +1,391 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LinearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="${packageName}.${activityClass}" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="18dp"
+        android:orientation="vertical" 
+        >
+    </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+            
+
+            <Button
+                android:id="@+id/button_gangnam"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/main_button"
+                android:textColor="#ffffff"
+                android:text="강남구"
+                android:onClick="onClick"
+                />
+            <Button
+                android:id="@+id/button_gangdong"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/main_button"
+                android:textColor="#ffffff"
+                android:text="강동구"
+                android:onClick="onClick"                
+                />
+            <Button
+                android:id="@+id/button_gangbuk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/main_button"
+                android:layout_weight="1"
+                android:textColor="#ffffff"
+                android:text="강북구"
+                android:onClick="onClick"                
+                />
+            <Button
+                android:id="@+id/button_gangseo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/main_button"
+                android:layout_weight="1"
+                android:textColor="#ffffff"
+                android:text="강서구"
+                android:onClick="onClick"                
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+            <Button
+                android:id="@+id/button_gwanak"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/main_button"
+                android:textColor="#ffffff"
+                android:text="관악구"
+                android:onClick="onClick"                
+                
+                />
+            <Button
+                android:id="@+id/button_gwangjin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/main_button"
+                android:textColor="#ffffff"
+                android:text="광진구"
+                android:onClick="onClick"                
+                />
+            <Button
+                android:id="@+id/button_guro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/main_button"
+                android:layout_weight="1"
+                android:textColor="#ffffff"
+                android:text="구로구"
+                android:onClick="onClick"                
+                />
+            <Button
+                android:id="@+id/button_gumcheon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/main_button"
+                android:layout_weight="1"
+                android:textColor="#ffffff"
+                android:text="금천구"
+                android:onClick="onClick"                
+                />
+        </LinearLayout>
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+            <Button
+                android:id="@+id/button_nowon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/main_button"
+                android:textColor="#ffffff"
+                android:text="노원구"
+                android:onClick="onClick"                
+                />
+            <Button
+                android:id="@+id/button_dobong"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/main_button"
+                android:textColor="#ffffff"
+                android:text="도봉구"
+                android:onClick="onClick"                
+                />
+            <Button
+                android:id="@+id/button_dongdaemun"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/main_button"
+                android:layout_weight="1"
+                android:textColor="#ffffff"
+                android:text="동대문구"
+                android:onClick="onClick"                
+                />
+            <Button
+                android:id="@+id/button_dongjak"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/main_button"
+                android:layout_weight="1"
+                android:textColor="#ffffff"
+                android:text="동작구"
+                android:onClick="onClick"                
+                />
+        </LinearLayout>
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+                <Button
+                android:id="@+id/button_mapo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/main_button"
+                android:layout_weight="1"
+                android:textColor="#ffffff"
+                android:text="마포구"
+                android:onClick="onClick"                
+                />
+            <Button
+                android:id="@+id/button_seodaemun"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/main_button"
+                android:textColor="#ffffff"
+                android:text="서대문구"
+                android:onClick="onClick"                
+                />
+            <Button
+                android:id="@+id/button_seongdong"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/main_button"
+                android:layout_weight="1"
+                android:textColor="#ffffff"
+                android:text="성동구"
+                android:onClick="onClick"                
+                />
+            <Button
+                android:id="@+id/button_seongbuk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/main_button"
+                android:layout_weight="1"
+                android:textColor="#ffffff"
+                android:text="성북구"
+                android:onClick="onClick"                
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+            <Button
+                android:id="@+id/button_seocho"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/main_button"
+                android:textColor="#ffffff"
+                android:text="서초구"
+                android:onClick="onClick"                
+                />            
+            <Button
+                android:id="@+id/button_songpa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/main_button"
+                android:textColor="#ffffff"
+                android:text="송파구"
+                android:onClick="onClick"                
+                />
+            <Button
+                android:id="@+id/button_yangcheon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/main_button"
+                android:textColor="#ffffff"
+                android:text="양천구"
+                android:onClick="onClick"                
+                />
+            <Button
+                android:id="@+id/button_young"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/main_button"
+                android:layout_weight="1"
+                android:textColor="#ffffff"
+                android:text="영등포구"
+                android:onClick="onClick"                
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+            <Button
+                android:id="@+id/button_yongsan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/main_button"
+                android:layout_weight="1"
+                android:textColor="#ffffff"
+                android:text="용산구"
+                android:onClick="onClick"                
+                />            
+            <Button
+                android:id="@+id/button_eunpyeong"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/main_button"
+                android:textColor="#ffffff"
+                android:text="은평구"
+                android:onClick="onClick"                
+                />
+            <Button
+                android:id="@+id/button_jongro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/main_button"
+                android:textColor="#ffffff"
+                android:text="종로구"
+                android:onClick="onClick"                
+                />
+            <Button
+                android:id="@+id/button_junggu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/main_button"
+                android:layout_weight="1"
+                android:textColor="#ffffff"
+                android:text="중구"
+                android:onClick="onClick"                
+                />
+
+        </LinearLayout>    
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+                               
+            <Button
+                android:id="@+id/button_jungrang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/main_button"
+                android:layout_weight="1"
+                android:textColor="#ffffff"
+                android:text="중랑구"
+                android:onClick="onClick"                
+                />
+             <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/no_button"
+                android:layout_weight="1"
+                />       
+             <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/no_button"
+                android:layout_weight="1"
+                />      
+             <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/no_button"
+                android:layout_weight="1"
+                />      
+                                                        
+    </LinearLayout>                 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="18dp"
+        android:orientation="vertical" >
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="42dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="   원하는 장소를 검색해보세요!   " />
+
+        <EditText
+            android:id="@+id/editText1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1.25" >
+        </EditText>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.1" >
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageView_search"
+            android:layout_width="32dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:src="@drawable/search" />
+
+    </LinearLayout>
+ <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+         android:gravity="center_horizontal" >
+    <TextView
+        android:id="@+id/textView_main"
+          android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+             android:layout_gravity="center"
+        android:textSize="20dp" />
+
+    <ImageView
+        android:id="@+id/loc_icon"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@drawable/loc_icon" />
+    
+     </LinearLayout>
+
+  <com.example.snfu.HorizontialListView
+      android:id="@+id/listview"
+      android:layout_width="fill_parent"
+      android:layout_height="0px"
+      android:layout_weight="2.16"/>
+
+</LinearLayout>
