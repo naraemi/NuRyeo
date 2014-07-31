@@ -13,8 +13,8 @@ import android.os.AsyncTask;
 public class DataContent extends AsyncTask<Void, Void, Void> {
 
 	
-	String FAC_DESC;//시설 설명
-	String IMG_ADD;//이미지 주소
+	String FAC_DESC="";//시설 설명
+	String IMG_ADD="";//이미지 주소
 
 	String search;
 	String uri;

@@ -9,9 +9,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.webkit.WebView;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 public class Content extends Activity {
 	String desc = "";
@@ -23,8 +25,8 @@ public class Content extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.data);
-		
+		//setContentView(R.layout.data);
+		setContentView(R.layout.web);
 		des_tv = (TextView) findViewById(R.id.des_tv);
 		// 이전 액티비티에서 넘어온 데이터를 받음
 		Intent intent = getIntent();
@@ -34,8 +36,8 @@ public class Content extends Activity {
 
 		// System.out.println("data:"+data);
 		// 텍스트뷰 객체 선언
-		
-		/*TextView des_tv = new TextView(this);
+		/*
+		TextView des_tv = new TextView(this);
 		// 텍스트뷰에 데이터를 붙임
 
 		// 보여질 내용일 많아질경우를 위해 스크롤뷰 생성
@@ -48,7 +50,7 @@ public class Content extends Activity {
 		*/
 
 		DataContent datacontent = new DataContent();
-		datacontent.nameencode(data);
+		datacontent.nameencode(data);//data
 		datacontent.execute(null, null, null);
 		desc = "";
 		imgAdd = "";
@@ -66,15 +68,27 @@ public class Content extends Activity {
 		}
 
 		// 이미지와 설명 띄우기
-		Bitmap imgBitmap = GetImageFromURL(imgAdd);
+		/*Bitmap imgBitmap = GetImageFromURL(imgAdd);
 
 		if (imgBitmap != null) {
 			//ImageView imgView = new ImageView(this);
 			ImageView imgView = (ImageView) findViewById(R.id.des_iv);
 			imgView.setImageBitmap(imgBitmap);
 		}
+*/
+		WebView web = (WebView) findViewById(R.id.webapp);
+		// 자바스크립트 허용
+		web.getSettings().setJavaScriptEnabled(true);
+		 
+		// 스크롤바 없애기
+		web.setHorizontalScrollBarEnabled(false);
+		web.setVerticalScrollBarEnabled(false);
+		web.setBackgroundColor(1);
 
-		des_tv.setText(desc);
+		web.loadData(desc, "text/html; charset=utf-8", null );
+		//des_tv.setText(Html.fromHtml(desc));
+		ImageView imgView = (ImageView) findViewById(R.id.des_iv);
+		Picasso.with(getBaseContext()).load(imgAdd).into(imgView);
 		desc = "";
 		imgAdd = "";
 	
