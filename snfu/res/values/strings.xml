@@ -3,5 +3,6 @@
 
     <string name="app_name">누려</string>
     <string name="title_activity_horizontal_list_view">HorizontalListView</string>
+    <string name="str_done">완료</string>
 
 </resources>

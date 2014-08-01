@@ -17,8 +17,9 @@ public class LocContent extends AsyncTask<Void, Void, Void> {
 	
 	//xml의 name 부분을 저장하기 위한 객체 선언
 	Vector<String> name_vec = new Vector<String>();
-	//FAC_CODE
 	Vector<String> code_vec = new Vector<String>();
+	Vector<String> add_vec = new Vector<String>();
+	Vector<String> codename_vec = new Vector<String>(); //기타를 걸러내려고
 
 	//검색창에서 사용자가 입력한 값을 받아오기 위해 클래스 선언
 	MainActivity mainActivity = new MainActivity();
@@ -39,7 +40,7 @@ public class LocContent extends AsyncTask<Void, Void, Void> {
 			//연결할 사이트 주소 선택
 			uri = "http://openAPI.seoul.go.kr:8088/"
 					+api_key
-					+"/xml/SearchCulturalFacilitiesAddressService/1/5/"
+					+"/xml/SearchCulturalFacilitiesAddressService/1/10/"
 					+search
 					+"/";
 		} catch (UnsupportedEncodingException e) {
@@ -53,7 +54,7 @@ public class LocContent extends AsyncTask<Void, Void, Void> {
 	URL url;
 
 	//xml에서 읽어드려서 저장할 변수
-	String tag_name = "",name="",code="";
+	String tag_name = "",name="",code="",add="",codename="";
 	
 	//제대로 데이터가 읽어졌는지를 판단해주는 변수
 	boolean flag = false;
@@ -99,19 +100,28 @@ public class LocContent extends AsyncTask<Void, Void, Void> {
 					else if(tag_name.equals("FAC_CODE")&&isInRowTag){
 						code += xpp.getText(); //name에 해당하는 모든 텍스트를 읽어드림(+=)
 					}
-					}else if(eventType==XmlPullParser.END_TAG){
+					else if(tag_name.equals("CODENAME")&&isInRowTag){
+						codename += xpp.getText(); //name에 해당하는 모든 텍스트를 읽어드림(+=)
+					}
+					else if(tag_name.equals("ADDR")&&isInRowTag){
+						add += xpp.getText(); //name에 해당하는 모든 텍스트를 읽어드림(+=)
+					}
+					}
+				else if(eventType==XmlPullParser.END_TAG){
 						//태그명을 읽어드림
 						tag_name=xpp.getName();
 						
 						//endtag일 경우에만 벡터에 저장
 						if(tag_name.equals("row")){
+							if(codename!="기타")
+							{
 							//벡터에 저장
 							name_vec.add(name);
 							code_vec.add(code);
-							
+							add_vec.add(add);
+							}
 							//변수 초기화
-							name=""; code="";
-							
+							name=""; code="";add="";codename="";	
 							isInRowTag=true;
 						}
 					}

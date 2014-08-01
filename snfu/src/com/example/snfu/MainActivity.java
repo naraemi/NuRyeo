@@ -26,6 +26,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity implements LocationListener ,OnItemClickListener{
 	TextView tv;
@@ -38,11 +39,15 @@ public class MainActivity extends Activity implements LocationListener ,OnItemCl
 	private Location myLocation = null;
 	double latPoint = 0;
 	double lngPoint = 0;
-
-	
+	//
+	Geocoder mCoder;
+	static double lat,lon;
+	//
 	/*파싱하는 부분 정의*/
 	Vector<String> name_vec = new Vector<String>();
 	Vector<String> code_vec = new Vector<String>();
+	Vector<String> add_vec = new Vector<String>();
+	Vector<String> codename_vec = new Vector<String>(); 
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +68,6 @@ public class MainActivity extends Activity implements LocationListener ,OnItemCl
 		tv = (TextView)findViewById(R.id.textView_main);
 		tv.setText("현재위치 주변의 정보");
 		search_st = GetLocations();
-		
 
 		
 /*		2. 사용자가 직접 검색을 함
@@ -187,14 +191,75 @@ public class MainActivity extends Activity implements LocationListener ,OnItemCl
 	public void onClick(View v){
 		switch (v.getId()){
 		case R.id.button_gangnam:
+			getAdd("강남구");
 			Intent intent = new Intent(MainActivity.this, MapLayout.class);
 			startActivity(intent);
 			
 			//인텐트 실행 시 발생하는 애니메이션을 제거한다.(액션바 때문에..)
 			overridePendingTransition(0,0);
-			finish();
+			//finish();
+			
+		case R.id.button_gangbuk:
+			
 			break;
 		}
+		
+	}
+	public void getAdd(String local)
+	{
+		//선택한 버튼 -> 주소와 시설이름 저장하는 함수
+		LocContent loccontent = new LocContent();
+		loccontent.nameencode(local);//getString(v.getId())); //
+		loccontent.execute(null,null,null);				
+		name_vec.clear();
+		code_vec.clear();
+		//codename_vec.clear();
+		add_vec.clear();
+		
+		while(true){
+			try{
+				Thread.sleep(1000); //0.1초마다 실행
+				if(loccontent.flag==true){
+					name_vec=loccontent.name_vec;
+					code_vec=loccontent.code_vec;
+					add_vec=loccontent.add_vec;
+					break; //반복문 종료
+				}
+			}
+			catch (Exception e){
+				
+			}}
+		//주소 -> 좌표 변환
+		mCoder = new Geocoder(this);
+		String testadd = "서울특별시 강서구 등촌로51나길 29";
+		List<Address> addr=null;
+		//double tes11 = testadd.getLatitude();
+			try {
+				addr = mCoder.getFromLocationName(testadd,5);
+			} 
+			catch (IOException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return;
+			}
+			if(addr.size()==0){
+				return;
+				}
+			else{
+				for(int i = 0; i<addr.size();++i)
+				{
+					Address lating = addr.get(i);
+					lat=lating.getLatitude();
+					lon=lating.getLongitude();
+				}
+				}
+		
+		/*String testadd = "서울특별시 강서구 등촌로51나길 29 (등촌동)";
+		받아온 주소를 좌표로 변환
+		latPoint = testadd.getLatitude();
+		lngPoint = myLocation.getLongitude();*/
+	
 	}
 
 		
@@ -252,6 +317,9 @@ public class MainActivity extends Activity implements LocationListener ,OnItemCl
  					e.printStackTrace();
  				}				
  			}
+ 			//초기화시켜주기
+ 			latPoint = 0;
+			lngPoint = 0;
  			return Gu;
  		}
      public void onLocationChanged(Location location) {
