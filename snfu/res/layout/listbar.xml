@@ -12,7 +12,7 @@
         android:layout_height="80px"
         android:background="#1bba9e" />
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout 
     android:id="@+id/MapContainer"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
