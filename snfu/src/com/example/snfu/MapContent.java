@@ -1,8 +1,5 @@
 package com.example.snfu;
 
-import android.app.Activity;
-import android.content.Intent;
-
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
@@ -13,8 +10,6 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import android.os.AsyncTask;
-import android.os.Bundle;
-import android.widget.EditText;
 
 public class MapContent extends AsyncTask<Void, Void, Void> {
 	//안드로이드에서 AsyncTask는 쓰레드 관리와 UI Thread와의 통신을 원활하게 도와주는 Wrapper Class이다.
