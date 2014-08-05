@@ -338,21 +338,24 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="   원하는 장소를 검색해보세요!   " />
+            android:layout_height="match_parent"
+            android:text="  원하는 곳을 검색해보세요!"
+            android:gravity="center_vertical"
+            android:layout_weight="1.2" />
 
         <EditText
-            android:id="@+id/editText1"
+            android:id="@+id/editText_main"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1.25" >
+            android:layout_weight="2"
+            android:hint="ex)한국미술박물관" >
+
         </EditText>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="0.1" >
-
+            android:layout_weight="0.5" >
         </LinearLayout>
 
         <ImageView
@@ -360,10 +363,19 @@
             android:layout_width="32dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:src="@drawable/search" />
+            android:src="@drawable/search"
+            android:layout_weight="0.35"
+             />
+         <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5" >
+
+        </LinearLayout>
 
     </LinearLayout>
- <LinearLayout
+
+<LinearLayout
         android:layout_width="match_parent"
         android:layout_height="30dp"
          android:gravity="center_horizontal" >
@@ -374,6 +386,7 @@
              android:layout_gravity="center"
         android:textSize="20dp" />
 
+
     <ImageView
         android:id="@+id/loc_icon"
         android:layout_width="32dp"
@@ -382,10 +395,11 @@
     
      </LinearLayout>
 
+
   <com.example.snfu.HorizontialListView
       android:id="@+id/listview"
       android:layout_width="fill_parent"
       android:layout_height="0px"
-      android:layout_weight="2.16"/>
+      android:layout_weight="2"/>
 
 </LinearLayout>

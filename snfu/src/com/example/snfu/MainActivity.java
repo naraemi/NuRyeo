@@ -92,7 +92,7 @@ public class MainActivity extends Activity implements LocationListener,
 		 * 2. 사용자가 직접 검색을 함
 		 */
 		// 검색창에서 사용자가 입력한 값 받아오기
-		editText = (EditText) findViewById(R.id.editText1);
+		editText = (EditText) findViewById(R.id.editText_main);
 
 		// 검색 이미지 눌렀을 때 이벤트
 		// xml을 파싱한다.
@@ -105,57 +105,70 @@ public class MainActivity extends Activity implements LocationListener,
 						// 1) xml 검색(문화공간정보 명칭 검색 api)
 						// 2) 결과 listView에 추가
 						// 3) "현재위치 주변의 데이트 정보" 텍스트 뷰 -> "검색결과"로 바꾸기
-
+						name_vec.clear();
 						if (editText.length() == 0) { // 만약 검색결과가 없을 경우
 							tv.setText("검색어를 입력해주세요.");
 							// 리스트를 초기화 시키고
 							name_vec.clear();
-							
 							// 초기화된 리스트 출력한다.(공백)
 							listview.setAdapter(mAdapter);
 						} else {
-							MapContent mapcontent = new MapContent();
-							// 검색창에 입력된 텍스트를 mapcontent에 넘겨주는 코드
-							// nameencode에선 입력받은 텍스트를 utf-8로 변환하여 uri값을 반환한다.
-							mapcontent
-									.nameencode(editText.getText().toString());
-							// mapcontent 실행
-							mapcontent.execute(null, null, null);
-							// 리스트 초기화
-							name_vec.clear();
-
-							while (true) {
-								try {
-									Thread.sleep(1000); // 0.1초마다 실행
-									if (mapcontent.flag == true) {
-										name_vec = mapcontent.name_vec;
-										code_vec=mapcontent.fac_code_vec;
-										break; // 반복문 종료
-									}
-								} catch (Exception e) {
-
-								}
-							}
+							//
+							// 문화 공간 api 검색
+							//
+							mapContent_search();
+							
+							//
+							// 문화재 api 검색
+							//
 							if (name_vec.size() == 0) {
-								tv.setText("검색결과 없음");
-								// 리스트 초기화
-								name_vec.clear();code_vec.clear();
-								// 초기화된 리스트 출력(공백)
-								listview.setAdapter(mAdapter);
-							} else {
-								tv.setText("▼ 검색결과 ▼");
-								// 리스트 다시 출력
-								listview.setAdapter(mAdapter);
-							}
+								//만약 문화공간 api검색을 했을 때 정보가 없다면, 문화재 api검색을 한다.							
+								culturalContent_search();
+								
+//								//그래도 정보가 없으면 검색결과 없음을 출력
+//								if(name_vec.size()==0){
+//									tv.setText("검색결과 없음");
+//									// 리스트 초기화
+//									name_vec.clear();
+//									// 초기화된 리스트 출력(공백)
+//									listview.setAdapter(mAdapter);
+//								}else{//정보가 있다면 그 정보를 출력								
+									for(int i=0;i<name_vec.size();i++){
+										// elementAt으로 받아오면 \n값까지 받아와지는 문제가 있었음..
+										// 그래서 std.length()-1해줘서 \n값 제거
+										String std1=name_vec.elementAt(i);
+										String std2=name_vec.elementAt(i);
+										std1=std1.substring(0, std1.length()-1);
+										if(std1.equals(editText.getText().toString())){
+											name_vec.clear();
+											name_vec.add(std2);
+											break;
+										}
+										else if(i==name_vec.size()-1&&!std1.equals(editText.getText().toString())){
+											name_vec.clear();
+										}
+									}
+								}
 						}
+								if(name_vec.size()==0){
+									tv.setText("검색결과 없음");
+									// 리스트 초기화
+									name_vec.clear();
+									// 초기화된 리스트 출력(공백)
+									listview.setAdapter(mAdapter);
+								}else{
+									tv.setText("▼ 검색결과 ▼");
+									// 리스트 다시 출력
+									listview.setAdapter(mAdapter);	
+								}
+//							}
 						// 키보드 아래로 내리기
 						InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 						imm.hideSoftInputFromWindow(editText.getWindowToken(),
 								0);
-
 					}
 				});
-
+		
 		findViewById(R.id.loc_icon).setOnClickListener( //현재위치의 시설검색
 				new View.OnClickListener() {
 
@@ -195,14 +208,14 @@ public class MainActivity extends Activity implements LocationListener,
 								}
 							}
 							if (name_vec.size() == 0) {
-								tv.setText("검색결과 없음");
-								// 리스트 초기화
-								name_vec.clear();
-								//name_vec.clear();
-								code_vec.clear();
-								// 초기화된 리스트 출력(공백)
-								listview.setAdapter(mAdapter);
-							} else {
+									tv.setText("검색결과 없음");
+									// 리스트 초기화
+									name_vec.clear();
+									//name_vec.clear();
+									code_vec.clear();
+									// 초기화된 리스트 출력(공백)
+							}
+							else {
 								tv.setText("▼" + search_st + " 검색결과 ▼");
 								// 리스트 다시 출력
 								listview.setAdapter(mAdapter);
@@ -213,6 +226,51 @@ public class MainActivity extends Activity implements LocationListener,
 
 		listview.setOnItemClickListener(this);
 
+	}
+	
+	public void mapContent_search(){
+		MapContent mapcontent = new MapContent();
+		// 검색창에 입력된 텍스트를 mapcontent에 넘겨주는 코드
+		// nameencode에선 입력받은 텍스트를 utf-8로 변환하여 uri값을 반환한다.
+		mapcontent
+				.nameencode(editText.getText().toString());
+		// mapcontent 실행
+		mapcontent.execute(null, null, null);
+		// 리스트 초기화
+		name_vec.clear();
+
+		while (true) {
+			try {
+				Thread.sleep(1000); // 0.1초마다 실행
+				if (mapcontent.flag == true) {
+					name_vec = mapcontent.name_vec;
+					code_vec=mapcontent.fac_code_vec;
+					break; // 반복문 종료
+				}
+			} catch (Exception e) {
+
+			}
+		}
+	}
+	
+	public void culturalContent_search(){
+		CulturalContent culturalcontent = new CulturalContent();
+		//culturalcontent 실행
+		culturalcontent.execute(null,null,null);
+		// 리스트 초기화
+		name_vec.clear();
+		
+		while(true){
+			try{
+				Thread.sleep(1000); //0.1초마다 실행
+				if(culturalcontent.flag==true){
+					name_vec=culturalcontent.name_vec;
+					break; //반복문 종료
+				}
+			}catch (Exception e){
+				
+			}
+		}
 	}
 
 	// 지역 버튼을 눌렀을 때의 이벤트 처리.
@@ -359,7 +417,8 @@ public void but_click(String str)
 			// 벡터 리스트에 저장되어있는 값을 순서대로 String값으로 출력한다.
 			// button.setText(name_vec.toString()); //벡터 v.removeElement()
 
-			button.setText(name_vec.elementAt(position));
+			String std = name_vec.elementAt(position);
+			button.setText(std.substring(0, std.length()-1));
 
 			return retval;
 		}
