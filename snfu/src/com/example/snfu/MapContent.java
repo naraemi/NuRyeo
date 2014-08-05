@@ -10,13 +10,16 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import android.os.AsyncTask;
-
+/* MapContent : 검색창에 시설 명칭 검색시 정보를 얻어오는 클래스
+ * 
+ * 8/5 기타분류에 있는 데이터가 저장되지 않도록 수정*/
 public class MapContent extends AsyncTask<Void, Void, Void> {
 	//안드로이드에서 AsyncTask는 쓰레드 관리와 UI Thread와의 통신을 원활하게 도와주는 Wrapper Class이다.
 	//쓰레드를 쓰기 위해서 AsyncTask 클래스를 상속받음
 	
 	//xml의 name 부분을 저장하기 위한 객체 선언
 	Vector<String> name_vec = new Vector<String>();
+	Vector<String> fac_code_vec = new Vector<String>();
 
 	//검색창에서 사용자가 입력한 값을 받아오기 위해 클래스 선언
 	MainActivity mainActivity = new MainActivity();
@@ -37,7 +40,7 @@ public class MapContent extends AsyncTask<Void, Void, Void> {
 			//연결할 사이트 주소 선택
 			uri = "http://openAPI.seoul.go.kr:8088/"
 					+api_key
-					+"/xml/SearchCulturalFacilitiesNameService/1/5/"
+					+"/xml/SearchCulturalFacilitiesNameService/1/1/"
 					+search
 					+"/";
 		} catch (UnsupportedEncodingException e) {
@@ -51,7 +54,7 @@ public class MapContent extends AsyncTask<Void, Void, Void> {
 	URL url;
 
 	//xml에서 읽어드려서 저장할 변수
-	String tag_name = "",name="";
+	String tag_name = "",name="",code="",f_code="";//f_code는 시설코드번호
 	
 	//제대로 데이터가 읽어졌는지를 판단해주는 변수
 	boolean flag = false;
@@ -92,11 +95,16 @@ public class MapContent extends AsyncTask<Void, Void, Void> {
 					//태그명이 name이거나 또는 addr일 때 읽어옴
 					
 					if(tag_name.equals("FAC_NAME")&&isInRowTag){
-						name += xpp.getText(); //name에 해당하는 모든 텍스트를 읽어드림(+=)
+						
+								name += xpp.getText(); //name에 해당하는 모든 텍스트를 읽어드림(+=)
 
-//						검색 결과가 " [] " 포함해서 출력되는 문제가 있음. 해결해야함.
-//						name = name.replace("[","");
-//						name = name.replace("]","");
+					}
+					else if(tag_name.equals("SUBJCODE")&&isInRowTag){
+						code += xpp.getText();
+					}
+					//FAC_CODE
+					else if(tag_name.equals("FAC_CODE")&&isInRowTag){
+						f_code += xpp.getText();
 					}
 					}else if(eventType==XmlPullParser.END_TAG){
 						//태그명을 읽어드림
@@ -104,13 +112,21 @@ public class MapContent extends AsyncTask<Void, Void, Void> {
 						
 						//endtag일 경우에만 벡터에 저장
 						if(tag_name.equals("row")){
+							
+							if(code.equals("11\n")){//기타이면
+								name="";code="";f_code="";
+								
+							}
+							else{ //기타가 아니면
 							//벡터에 저장
 							name_vec.add(name);
-							
+							fac_code_vec.add(f_code);
 							//변수 초기화
-							name="";
+							name="";code="";f_code="";
+							}
 							
 							isInRowTag=true;
+							
 						}
 					}
 					//다음 이벤트 타입을 저장

@@ -31,6 +31,9 @@ import android.widget.TextView;
 /*
  * 메인함수
  * 8/2 네트워크 연결이 확인되지 않을 경우 예외처리(현재위치값미전송)
+ * 8/5 '기타'를 저장X 주소 변환 함수에서 오류발생 -> 해결
+ * 		강동구,강북구 click이벤트 활성화-> 초기 좌표값지정후 자동으로 but_click함수를 통해
+ *     map뷰 뜨도록 변경
  * */
 public class MainActivity extends Activity implements LocationListener,
 		OnItemClickListener {
@@ -38,7 +41,7 @@ public class MainActivity extends Activity implements LocationListener,
 	EditText editText;
 	String search_st = "";
 	String Gu;
-	static int data_num = 0; // 0:초기값 결과를 몇개 받아올것인지에 대한 변수
+	static int data_num = 0; // 0:초기값 / 결과를 몇개 받아올것인지에 대한 변수
 	// 현재위치값 불러오기
 	private LocationManager locManager;
 	Geocoder geoCoder;
@@ -46,17 +49,23 @@ public class MainActivity extends Activity implements LocationListener,
 	double latPoint = 0;
 	double lngPoint = 0;
 	//
+	static double loc_lat=0.0,loc_lon=0.0; //버튼에 따라 바뀌는 값 지도 초기값
 	Geocoder mCoder;
 	double lat, lon;
-	static Vector<Double> lat_vec = new Vector<Double>();
-	static Vector<Double> lon_vec = new Vector<Double>();
+	static Vector<Double> lat_vec = new Vector<Double>(); //주소변환 좌표
+	static Vector<Double> lon_vec = new Vector<Double>();//주소변환 좌표
 	//
 	/* 파싱하는 부분 정의 */
 	static 	Vector<String> name_vec = new Vector<String>();
+	static 	Vector<String> sname_vec = new Vector<String>();//검색한 결과의
+	static 	Vector<String> lname_vec = new Vector<String>(); //현재위치 주변의
 	Vector<String> code_vec = new Vector<String>();
+	Vector<String> code_vec2 = new Vector<String>();
+	static 	Vector<String> name_vec2 = new Vector<String>();
 	Vector<String> add_vec = new Vector<String>();
 	Vector<String> codename_vec = new Vector<String>();
 
+//	String r_name=""; String r_code=""; // 검색 결과 시설명,시설코드
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -101,6 +110,7 @@ public class MainActivity extends Activity implements LocationListener,
 							tv.setText("검색어를 입력해주세요.");
 							// 리스트를 초기화 시키고
 							name_vec.clear();
+							
 							// 초기화된 리스트 출력한다.(공백)
 							listview.setAdapter(mAdapter);
 						} else {
@@ -119,6 +129,7 @@ public class MainActivity extends Activity implements LocationListener,
 									Thread.sleep(1000); // 0.1초마다 실행
 									if (mapcontent.flag == true) {
 										name_vec = mapcontent.name_vec;
+										code_vec=mapcontent.fac_code_vec;
 										break; // 반복문 종료
 									}
 								} catch (Exception e) {
@@ -128,7 +139,7 @@ public class MainActivity extends Activity implements LocationListener,
 							if (name_vec.size() == 0) {
 								tv.setText("검색결과 없음");
 								// 리스트 초기화
-								name_vec.clear();
+								name_vec.clear();code_vec.clear();
 								// 초기화된 리스트 출력(공백)
 								listview.setAdapter(mAdapter);
 							} else {
@@ -156,15 +167,17 @@ public class MainActivity extends Activity implements LocationListener,
 							tv.setText("★ 네트워크 연결 상태를 확인해주세요. ★");
 							// 리스트를 초기화 시키고
 							name_vec.clear();
+						//	name_vec.clear();
 							code_vec.clear();
 							// 초기화된 리스트 출력한다.(공백)
 							listview.setAdapter(mAdapter);
 						} else {
 							LocContent loccontent = new LocContent();
-							// data_num=5;
-							loccontent.nameencode(search_st, 5);
+							data_num=5;
+							loccontent.nameencode(search_st, data_num);
 							loccontent.execute(null, null, null);
 							name_vec.clear();
+						//	name_vec.clear();
 							code_vec.clear();
 							// data_num=0;
 
@@ -173,6 +186,7 @@ public class MainActivity extends Activity implements LocationListener,
 									Thread.sleep(1000); // 0.1초마다 실행
 									if (loccontent.flag == true) {
 										name_vec = loccontent.name_vec;
+									//	name_vec= loccontent.name_vec; //백업용
 										code_vec = loccontent.code_vec;
 										break; // 반복문 종료
 									}
@@ -184,6 +198,7 @@ public class MainActivity extends Activity implements LocationListener,
 								tv.setText("검색결과 없음");
 								// 리스트 초기화
 								name_vec.clear();
+								//name_vec.clear();
 								code_vec.clear();
 								// 초기화된 리스트 출력(공백)
 								listview.setAdapter(mAdapter);
@@ -204,34 +219,49 @@ public class MainActivity extends Activity implements LocationListener,
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.button_gangnam:
-			getAdd("강남구"); // "강남구"의 시설정보들을 파싱, vec에 저장
-			transAdd(); // 강남구 문화정보의 주소들을 좌표값으로 변경
-		//	MapLayout veccontent = new MapLayout();
-		//	veccontent.latvectorcopy(lat_vec);
-		//	veccontent.lonvectorcopy(lon_vec);
-			Intent intent = new Intent(this, MapLayout.class);
-			startActivity(intent);
-
-			// 인텐트 실행 시 발생하는 애니메이션을 제거한다.(액션바 때문에..)
-			overridePendingTransition(0, 0);
-			// finish();
-
+			//강남구청[127.0475020, 37.5173050]
+			loc_lon=127.0475020; loc_lat=37.5173050;
+			but_click("강남구");
+			break;
+		
+		case R.id.button_gangdong:
+			//강동구청 127.1237708&y=37.5301260
+			loc_lon=127.1237708; loc_lat=37.5301260;
+			but_click("강동구");
+			break;
 		case R.id.button_gangbuk:
-
+			//127.0254820&y=37.6397480
+			loc_lon=127.0254820; loc_lat=37.6397480;
+			but_click("강북구");
+			break;
+		case R.id.button_nowon:
+			loc_lon=127.1237708; loc_lat=37.5301260;
+			but_click("노원구");
 			break;
 		}
 
 	}
+public void but_click(String str)
+{
+	getAdd(str); // "강남구"의 시설정보들을 파싱, vec에 저장
+	transAdd(); // 강남구 문화정보의 주소들을 좌표값으로 변경
+	Intent intent = new Intent(this, MapLayout.class);
+	startActivity(intent);
 
+	// 인텐트 실행 시 발생하는 애니메이션을 제거한다.(액션바 때문에..)
+	overridePendingTransition(0, 0);
+	// finish();
+
+}
 	public void getAdd(String local) {
 		// 선택한 지역 버튼 -> 주소와 시설이름 저장하는 함수
 		LocContent loccontent = new LocContent();
-		data_num = 15;
+		data_num = 20;
 		loccontent.nameencode(local, data_num);// getString(v.getId())); //
 		loccontent.execute(null, null, null);
 		name_vec.clear();
 		code_vec.clear();
-		// codename_vec.clear();
+		codename_vec.clear();
 		add_vec.clear();
 
 		while (true) {
@@ -254,8 +284,8 @@ public class MainActivity extends Activity implements LocationListener,
 
 		// 주소 -> 좌표 변환
 		mCoder = new Geocoder(this);
-		String testadd = "서울특별시 강남구 압구정로12길 51, 어반빌딩 3층 ";// "서울특별시 강서구 등촌로51나길 29";
-		
+		String testadd = "";// "서울특별시 강서구 등촌로51나길 29";
+		data_num = add_vec.size();
 		lat_vec.clear(); lon_vec.clear();
 		List<Address> addr = null;
 		// double tes11 = testadd.getLatitude();
@@ -392,22 +422,22 @@ public class MainActivity extends Activity implements LocationListener,
 		if (content.length() == 0) { // 만약 검색결과가 없을 경우
 			tv.setText("앗! 뭔가 잘못되써용!");
 			// 리스트를 초기화 시키고
-			name_vec.clear();
-			code_vec.clear();
+			//name_vec.clear();
+			//code_vec.clear();
 
 		} else {
 			LocContent loccontent = new LocContent();
 			loccontent.nameencode(search_st, 1);
 			loccontent.execute(null, null, null);
-			name_vec.clear();
-			code_vec.clear();
+		//	name_vec.clear();
+		//	code_vec.clear();
 
 			while (true) {
 				try {
 					Thread.sleep(1000); // 0.1초마다 실행
 					if (loccontent.flag == true) {
-						name_vec = loccontent.name_vec;
-						code_vec = loccontent.code_vec;
+						name_vec2 = loccontent.name_vec;
+						code_vec2 = loccontent.code_vec;
 						break; // 반복문 종료
 					}
 				} catch (Exception e) {

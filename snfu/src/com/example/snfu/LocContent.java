@@ -10,6 +10,8 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import android.os.AsyncTask;
+/*
+ * 8/5 기타분류에 있는 데이터가 저장되지 않도록 수정*/
 
 public class LocContent extends AsyncTask<Void, Void, Void> {
 	// 안드로이드에서 AsyncTask는 쓰레드 관리와 UI Thread와의 통신을 원활하게 도와주는 Wrapper Class이다.
@@ -107,18 +109,21 @@ public class LocContent extends AsyncTask<Void, Void, Void> {
 
 					// endtag일 경우에만 벡터에 저장
 					if (tag_name.equals("row")) {
-						if (codename != "11") {//기타 코드 넘버
-							// 벡터에 저장
-							name_vec.add(name);
-							code_vec.add(code);
-							add_vec.add(add);
+						
+						if(codename.equals("11\n")){//기타이면
+							name="";codename="";code="";add = "";
 							
 						}
-						// 변수 초기화
-						name = "";
-						code = "";
-						add = "";
-						codename = "";
+						else{ //기타가 아니면
+						//벡터에 저장
+						name_vec.add(name);
+						code_vec.add(code);
+						add_vec.add(add);
+						
+						//변수 초기화
+						name="";codename="";code="";add = "";
+						}
+					
 						isInRowTag = true;
 					}
 				}

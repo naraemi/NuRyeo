@@ -51,6 +51,7 @@ public class MapLayout extends NMapActivity implements
 	public Vector<Double> lon_vec = new Vector<Double>();
 	public Vector<String> name_vec = new Vector<String>();
 	int datanum;
+	double loc_lat=0.0,loc_lon=0.0;
 
 
 	@Override
@@ -62,6 +63,8 @@ public class MapLayout extends NMapActivity implements
 		lat_vec=MainActivity.lat_vec;
 		name_vec=MainActivity.name_vec;
 		datanum=MainActivity.data_num;
+		loc_lat=MainActivity.loc_lat;
+		loc_lon=MainActivity.loc_lon;
 		
 		// 커스텀바 정의
 		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
@@ -127,8 +130,7 @@ public class MapLayout extends NMapActivity implements
 			String temp = name_vec.get(i);
 			poiData.addPOIitem(lon, lat, temp, markerId, 0);
 		}
-		// poiData.addPOIitem(lon, lat, "코엑스 오디토리움", markerId, 0);
-		// poiData.addPOIitem(127.061, 37.51, "위치2", markerId, 0);
+	
 		poiData.endPOIdata();
 
 		// 위치 데이터를 사용하여 오버레이 생성
@@ -205,7 +207,7 @@ public class MapLayout extends NMapActivity implements
 		// TODO Auto-generated method stub
 		if (errorInfo == null) {
 			// 지도초기화면 설정! 선택값에 따라 변경되어야되 강남구->강남구청[127.0475020, 37.5173050]
-			mMapController.setMapCenter(new NGeoPoint(127.0475020, 37.5173050),
+			mMapController.setMapCenter(new NGeoPoint(loc_lon, loc_lat),
 					11); // 11은 줌레벨 1로 설정하면 한반도가보임
 		} else {
 			android.util.Log.e("NMAP",

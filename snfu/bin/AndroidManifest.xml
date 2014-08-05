@@ -32,7 +32,8 @@
             </intent-filter>
         </activity>
   <activity
-            android:name="com.example.snfu.Content"/>
+            android:name="com.example.snfu.Content"
+             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         <activity
             android:name="com.example.snfu.MapLayout" >
         </activity>

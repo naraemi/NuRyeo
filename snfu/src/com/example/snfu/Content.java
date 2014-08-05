@@ -10,10 +10,12 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 /* Content.java : 검색결과창에서 선택된 시설의 설명과 이미지를 받아오는 함수
  * 8/2 update - 필요없는 주석/코드 정리
+ * 8/5 name변수 추가 -> 시설명 받아와서 tv에 시설이름 띄우기, 상단 앱이름 지우기
  * */
 public class Content extends Activity {
 	String desc = "";
 	String imgAdd = "";
+	String name="";
 	TextView des_tv;
 	ImageView imgView;
 
@@ -34,7 +36,7 @@ public class Content extends Activity {
 		datacontent.nameencode(data);//data
 		datacontent.execute(null, null, null);
 		desc = "";
-		imgAdd = "";
+		imgAdd = "";name="";
 
 		while (true) {
 			try {
@@ -42,6 +44,7 @@ public class Content extends Activity {
 				if (datacontent.flag == true) {
 					desc = datacontent.FAC_DESC;
 					imgAdd = datacontent.IMG_ADD;
+					name = datacontent.FAC_NAME;
 					break; // 반복문 종료
 				}
 			} catch (Exception e) {
@@ -58,12 +61,15 @@ public class Content extends Activity {
 		web.setHorizontalScrollBarEnabled(false);
 		web.setVerticalScrollBarEnabled(false);
 		web.setBackgroundColor(1);
-
+		TextView tv = (TextView) findViewById(R.id.nametextView1);
+		
+		
+		tv.setText(name);
 		web.loadData(desc, "text/html; charset=utf-8", null );
 		ImageView imgView = (ImageView) findViewById(R.id.des_iv);
 		Picasso.with(getBaseContext()).load(imgAdd).into(imgView);
 		desc = "";
-		imgAdd = "";
+		imgAdd = "";name="";
 	
 
 	}

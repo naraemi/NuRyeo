@@ -15,6 +15,7 @@ public class DataContent extends AsyncTask<Void, Void, Void> {
 	
 	String FAC_DESC="";//시설 설명
 	String IMG_ADD="";//이미지 주소
+	String FAC_NAME="";
 
 	String search;
 	String uri;
@@ -83,6 +84,9 @@ public class DataContent extends AsyncTask<Void, Void, Void> {
 					}
 					else if(tag_name.equals("MAIN_IMG")&&isInRowTag){
 						IMG_ADD += xpp.getText(); 
+					}
+					else if (tag_name.equals("FAC_NAME")&&isInRowTag){
+						FAC_NAME+= xpp.getText(); 
 					}
 					
 					}else if(eventType==XmlPullParser.END_TAG){
